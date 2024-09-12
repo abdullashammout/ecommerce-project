@@ -1,0 +1,39 @@
+/* src/components/TextField/TextField.module.css */
+
+.textFieldContainer {
+    margin-bottom: 15px;
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555555;
+  }
+  
+  .input {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .input:focus {
+    outline: none;
+    border-color: #1A73E8;
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(26, 115, 232, 0.2);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .input {
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+  }
+  

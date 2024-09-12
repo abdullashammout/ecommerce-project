@@ -1,0 +1,38 @@
+/* styles/globals.css */
+
+/* Base Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to right,#000000, #f0f2f5); /* Gradient background */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Utility Classes */
+.container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding:0;
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Media Queries for Global Styles */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 10px;
+  }
+}

@@ -1,0 +1,92 @@
+/* src/components/Login/Login.module.css */
+
+.loginContainer {
+  background-color: #f0f0f0aa;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+.logo {
+  max-width: 150px; /* Adjust as needed */
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.loginHeader {
+  margin-bottom: 20px;
+}
+
+.loginHeader h1 {
+  font-size: 28px;
+  color: #000000;
+  margin: 0;
+}
+
+.loginHeader p {
+  font-size: 14px;
+  color: #555555;
+}
+
+.forgotPassword {
+  color: #1A73E8;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgotPassword:hover {
+  text-decoration: underline;
+}
+
+.signupPrompt {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.signupPrompt p {
+  margin: 0;
+}
+
+.signupPrompt a {
+  color: #1A73E8;
+  text-decoration: none;
+}
+
+.signupPrompt a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .loginContainer {
+    padding: 15px;
+  }
+
+  .loginHeader h1 {
+    font-size: 24px;
+  }
+
+  .loginHeader p {
+    font-size: 12px;
+  }
+
+  .forgotPassword {
+    font-size: 12px;
+  }
+
+  .signupPrompt {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .signupPrompt p,
+  .signupPrompt a {
+    font-size: 12px;
+  }
+}
