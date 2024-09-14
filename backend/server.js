@@ -39,13 +39,36 @@ app.use(cookieParser());
 app.post("/register", async (req, res) => {
   try {
     const { firstname, lastname, phonenumber, email, password } = req.body;
+    const existingEmail = await pool.query(
+      "SELECT * FROM users WHERE email = $1",
+      [email]
+    );
+
+    if (existingEmail.rows.length > 0) {
+      return res.status(400).json({ message: "Email is already in use." });
+    }
+    const existingPhonenumber = await pool.query(
+      "SELECT * FROM users WHERE phonenumber = $1",
+      [phonenumber]
+    );
+
+    if (existingPhonenumber.rows.length > 0) {
+      return res
+        .status(400)
+        .json({ message: "Phone number is already in use." });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const result = await pool.query(
       "INSERT INTO users (firstname,lastname,phonenumber, email, password) VALUES ($1, $2, $3,$4,$5) RETURNING *",
       [firstname, lastname, phonenumber, email, hashedPassword]
     );
+    const user = result.rows[0];
 
+    const accessToken = generateAccessToken(user);
+
+    res.json({ accessToken });
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error(error.message);

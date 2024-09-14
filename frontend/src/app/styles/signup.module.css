@@ -8,6 +8,11 @@
     margin: 0 auto;
     text-align: center;
   }
+  .errorMessage {
+    color: red; /* Ensure it's red */
+    margin-top: 10px;
+    font-size: 14px;
+  }
   
   .logo {
     max-width: 150px;

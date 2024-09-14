@@ -12,6 +12,7 @@ const jwt_decode = require("jwt-decode");
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   useEffect(() => {
@@ -26,6 +27,11 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Frontend validation before sending request to backend
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       const res = await fetch("http://localhost:4000/login", {
         method: "POST",
@@ -33,29 +39,61 @@ const Login = () => {
         credentials: "include", // Allow sending cookies
         body: JSON.stringify({ email, password }),
       });
+
       const data = await res.json();
-      console.log("Login response:", data); // Log the entire response
 
       if (res.ok) {
-        console.log("Token received:", data.accessToken); // Debugging statement
-
         const decodedToken = jwt_decode.jwtDecode(data.accessToken);
         const currentTime = Date.now() / 1000;
 
         if (decodedToken.exp < currentTime) {
-          // Token has expired, force re-login
           router.push("/pages/login");
         } else {
           sessionStorage.setItem("token", data.accessToken);
           router.push("/pages/home");
         }
       } else {
-        console.log(data.message);
+        switch (res.status) {
+          case 400:
+            setError("Invalid email or password");
+            break;
+          case 401:
+            setError("Unauthorized. Please check your email and password.");
+            break;
+          case 403:
+            setError("Forbidden. You may not have access to this resource.");
+            break;
+          case 500:
+            setError("Server error. Please try again later.");
+            break;
+          default:
+            setError("An unexpected error occurred. Please try again.");
+        }
       }
     } catch (error) {
-      console.error("Error logging in", error);
+      setError("An error occurred. Please try again."); // General error message
     }
   };
+  const validateForm = () => {
+    if (!email) {
+      setError("Email is required.");
+      return false;
+    }
+    // Simple email regex pattern for validation
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+      setError("Please enter a valid email address.");
+      return false;
+    }
+    if (!password) {
+      setError("Password is required.");
+      return false;
+    }
+
+    setError(""); // Clear any errors if validation passes
+    return true;
+  };
+
   const checkTokenExpiry = async () => {
     const token = sessionStorage.getItem("token");
     if (!token) return false;
@@ -96,20 +134,22 @@ const Login = () => {
       </header>
       <form onSubmit={handleSubmit}>
         <TextField
-          label="Email"
+          placeholder="Email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           id="email"
         />
+
         <TextField
-          label="Password"
+          placeholder="Password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           id="password"
         />
         <Button type="submit">Login</Button>
+        {error && <p className={styles.errorMessage}>{error}</p>}
       </form>
       <a href="#" className={styles.forgotPassword}>
         Forgot Password?
