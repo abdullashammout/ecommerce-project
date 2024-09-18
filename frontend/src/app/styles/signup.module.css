@@ -45,6 +45,27 @@
   .formGroupFull {
     grid-column: span 2;
   }
+  .signupPrompt {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    font-size: 14px;
+  }
+  
+  .signupPrompt p {
+    margin: 0;
+  }
+  
+  .signupPrompt a {
+    color: #1A73E8;
+    text-decoration: none;
+  }
+  
+  .signupPrompt a:hover {
+    text-decoration: underline;
+  }
   
   
   

@@ -5,6 +5,7 @@ import TextField from "../../../components/TextField/TextField";
 import Button from "../../../components/Button/Button";
 import styles from "../../styles/signup.module.css";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -175,14 +176,20 @@ const SignUp = () => {
               placeholder="First Name"
               type="text"
               value={firstname}
-              onChange={(e) => setFirstname(e.target.value)}
+              onChange={(e) => {
+                setFirstname(e.target.value);
+                setError("");
+              }}
               id="firstname"
             />
             <TextField
               placeholder="Last Name"
               type="text"
               value={lastname}
-              onChange={(e) => setLastname(e.target.value)}
+              onChange={(e) => {
+                setLastname(e.target.value);
+                setError("");
+              }}
               id="lastname"
             />
           </div>
@@ -192,7 +199,10 @@ const SignUp = () => {
               placeholder="Email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setError("");
+              }}
               id="email"
             />
             <TextField
@@ -204,6 +214,7 @@ const SignUp = () => {
                 // Allow only numeric characters
                 const filteredInput = input.replace(/\D/g, "");
                 setPhonenumber(filteredInput);
+                setError("");
               }}
               id="phonenumber"
             />
@@ -214,19 +225,28 @@ const SignUp = () => {
               placeholder="Password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setError("");
+              }}
               id="password"
             />
             <TextField
               placeholder="Confirm Password"
               type="password"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+                setError("");
+              }}
               id="confirmPassword"
             />
           </div>
 
           <Button type="submit">Sign Up</Button>
+          <div className={styles.signupPrompt}>
+            <Link href="/pages/login">already have an account?</Link>
+          </div>
           {error && <p className={styles.errorMessage}>{error}</p>}
           {success && <p className={styles.successMessage}>{success}</p>}
         </form>
