@@ -19,7 +19,7 @@ const Login = () => {
     const validateToken = async () => {
       const isValid = await checkTokenExpiry();
       if (!isValid) {
-        router.push("/pages/login");
+        router.replace("/pages/login");
       }
     };
     validateToken();
@@ -137,7 +137,10 @@ const Login = () => {
           placeholder="Email"
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            setError("");
+          }}
           id="email"
         />
 
@@ -145,13 +148,16 @@ const Login = () => {
           placeholder="Password"
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setError("");
+          }}
           id="password"
         />
         <Button type="submit">Login</Button>
         {error && <p className={styles.errorMessage}>{error}</p>}
       </form>
-      <a href="#" className={styles.forgotPassword}>
+      <a href="/pages/forgetPassword" className={styles.forgotPassword}>
         Forgot Password?
       </a>
       <div className={styles.signupPrompt}>
