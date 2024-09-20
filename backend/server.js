@@ -206,7 +206,7 @@ app.post("/forgot-password", async (req, res) => {
     );
 
     // Create the password reset link
-    const resetLink = `http://localhost:3000/pages/resetPassForm/[token]/${token}`;
+    const resetLink = `http://localhost:3000/pages/resetPassForm?token=${token}`;
     console.log(token);
     // Set up the email options
     const mailOptions = {

@@ -1,9 +1,9 @@
 "use client";
-import { useSearchParams } from "next/navigation"; // Make sure this is the correct import
+import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import TextField from "../../../../components/TextField/TextField";
-import Button from "../../../../components/Button/Button";
-import styles from "../../../styles/resetpassword.module.css";
+import TextField from "../../../components/TextField/TextField";
+import Button from "../../../components/Button/Button";
+import styles from "../../styles/resetpassword.module.css";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -18,25 +18,24 @@ const ResetPassword = () => {
 
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    // Validate form
     if (!password) {
       setError("Password is required.");
       return false;
     }
     if (!confirmPassword) {
-      setError("confirm Password is required.");
+      setError("Confirm Password is required.");
       return false;
     }
-    //passwords do not match
-    if (password != confirmPassword) {
+    if (password !== confirmPassword) {
       setError("The passwords do not match.");
       return false;
     }
-    //password length
     if (password.length < 8) {
       setError("Password must be at least 8 characters long.");
       return false;
     }
-    //password conatins
     if (!passwordRegex.test(password)) {
       setError(
         "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character."
@@ -58,7 +57,9 @@ const ResetPassword = () => {
       const data = await res.json();
 
       if (res.ok) {
-        setSuccess("Password has been successfully reset.");
+        setSuccess(
+          "Thank you" + "\n" + " Password has been successfully reset."
+        );
         setError(""); // Clear previous errors
       } else {
         setError(data.message);
@@ -69,6 +70,7 @@ const ResetPassword = () => {
       setError("Something went wrong. Please try again.");
     }
   };
+
   useEffect(() => {
     console.log("Token:", token); // Log the token to debug
   }, [token]);
@@ -76,22 +78,32 @@ const ResetPassword = () => {
   return (
     <div className={styles.resetPasswordContainer}>
       <h1 className="h1">Reset Password</h1>
-      <form className="form" onSubmit={handleResetPassword}>
-        <TextField
-          placeholder="New Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <TextField
-          placeholder="Confirm Password"
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-        <Button type="submit">Reset Password</Button>
-      </form>
-      {success && <p className={styles.successMessage}>{success}</p>}
+
+      {/* Conditionally render the form or success message */}
+      {success ? (
+        <p className={styles.successMessage}>{success}</p>
+      ) : (
+        <form className="form" onSubmit={handleResetPassword}>
+          <TextField
+            placeholder="New Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <TextField
+            placeholder="Confirm Password"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+              setError("");
+            }}
+          />
+          <Button type="submit">Reset Password</Button>
+        </form>
+      )}
+
+      {/* Display error message if there's an error */}
       {error && <p className={styles.errorMessage}>{error}</p>}
     </div>
   );
